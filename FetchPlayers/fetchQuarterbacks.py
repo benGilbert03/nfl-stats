@@ -20,5 +20,10 @@ def getStartingQuarterbacks(years):
     qbs = getQuarterbacks(years)
 
     
+def printPlayers(players):
+    count = 1
+    for _, row in players.iterrows():
+        print(count, ":", row['player_name'])
+        count += 1
 
-print(getQuarterbacks([2024]))
+printPlayers(getQuarterbacks([2024]))
