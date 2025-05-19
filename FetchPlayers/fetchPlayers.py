@@ -20,44 +20,23 @@ def getPlayers(years, position):
     else: 
         return None
 
-# Get starters
-# Based on percentage of snaps played 
-# Go through every player at that position and find out who had the most snaps
-# Or top n players in snaps
-# Returns a dataframe with the top 1 - n players in snap count at a position
-def getStarters(years, position):
+# Get week one starters (1 QB, 1 RB, 1 TE, 3 WR, )
+# Returns a dataframe with the week one starters at the given position or None
+def getWeekOneStarters(years, position):
     players = getPlayers(years, position)
-    # Sort players by team so all players on a team are next to each other
-    players = players.sort_values(by = 'team')
+    depthCharts = pd.DataFrame(nfl.import_depth_charts(years))
+    depthCharts = depthCharts[depthCharts['depth_team'] == '1']
 
-    #Get ids of players (use pfr_id for snap count
-    ids = pd.DataFrame(nfl.import_ids())
+    # merge players and depth charts on id 
+    toReturn = players.merge(depthCharts, how='inner', left_on='player_id', right_on='gsis_id')
 
-    #Get snap counts
-    snapCounts = pd.DataFrame(nfl.import_snap_counts(years))
-    snapCounts = snapCounts.sort_values(by = 'team')
+    # print(toReturn.columns)
+    # print(depthCharts.columns)
+    
+    # get only week one starters
+    toReturn = toReturn[toReturn['week_y'] == 1]
 
-    # Create a dataframe that holds all players from a team
-    team = pd.DataFrame()
-    teamIds = pd.DataFrame()
-    teamSnapCounts = pd.DataFrame()
-
-    # DataFrame with teams in it to iterate through
-    allTeams = pd.DataFrame(nfl.import_team_desc())
-
-    # Dataframe holding all starters for teams by team
-    starters = pd.DataFrame()
-
-    # Iterate through ids dataframe and add them to the team dataframe
-    for row in allTeams ():
-        # Current team to compare to
-        currentTeam = row['team']
-        team = players[players[team] == currentTeam]
-        teamIds = ids[ids[team] == currentTeam]
-        teamSnapCounts = snapCounts[snapCounts[ids = teamIds]]
-
-
-    return None
+    return toReturn
 
 
 
@@ -68,10 +47,14 @@ def printPlayers(players):
         count += 1
 
 
-# printPlayers(getPlayers([2024], ['DB']))
 
-# print(pd.DataFrame(nfl.import_depth_charts([2024])).columns)
 
-# print(pd.DataFrame(nfl.import_sc_lines([2024])).columns)
+# print(printPlayers(getWeekOneStarters([2024], ['QB'])))
 
-print(getStarters([2024], ['QB']))
+frame = getWeekOneStarters([2024], ['QB'])
+print(frame)
+
+
+# for _, row in frame.iterrows():
+#     print(row.to_dict())
+#     print()
