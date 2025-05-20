@@ -20,8 +20,9 @@ def getPlayers(years, position):
     else: 
         return None
 
-# Get week one starters (1 QB, 1 RB, 1 TE, 3 WR, )
+# Get week one starters (1 QB, 3 RB, 1 TE, 3 WR, 5 OL, 4 DL, 4 DB, 2 LB, 1 K, 1 P, 1 LS)
 # Returns a dataframe with the week one starters at the given position or None
+# club_code is the the team the player was on week one
 def getWeekOneStarters(years, position):
     players = getPlayers(years, position)
     depthCharts = pd.DataFrame(nfl.import_depth_charts(years))
@@ -30,11 +31,9 @@ def getWeekOneStarters(years, position):
     # merge players and depth charts on id 
     toReturn = players.merge(depthCharts, how='inner', left_on='player_id', right_on='gsis_id')
 
-    # print(toReturn.columns)
-    # print(depthCharts.columns)
-    
     # get only week one starters
     toReturn = toReturn[toReturn['week_y'] == 1]
+    toReturn.drop_duplicates(subset=['gsis_id'], inplace=True)
 
     return toReturn
 
@@ -43,7 +42,8 @@ def getWeekOneStarters(years, position):
 def printPlayers(players):
     count = 1
     for _, row in players.iterrows():
-        print(count, ":", row['player_name'])
+        if (row['club_code'] == 'CHI'):
+            print(count, ":", row['player_name'], ', ', row['club_code'])
         count += 1
 
 
@@ -52,7 +52,7 @@ def printPlayers(players):
 # print(printPlayers(getWeekOneStarters([2024], ['QB'])))
 
 frame = getWeekOneStarters([2024], ['QB'])
-print(frame)
+printPlayers(frame)
 
 
 # for _, row in frame.iterrows():
