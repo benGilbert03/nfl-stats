@@ -45,16 +45,3 @@ def printPlayers(players):
         if (row['club_code'] == 'CHI'):
             print(count, ":", row['player_name'], ', ', row['club_code'])
         count += 1
-
-
-
-
-# print(printPlayers(getWeekOneStarters([2024], ['QB'])))
-
-frame = getWeekOneStarters([2024], ['QB'])
-printPlayers(frame)
-
-
-# for _, row in frame.iterrows():
-#     print(row.to_dict())
-#     print()
