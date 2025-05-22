@@ -2,12 +2,12 @@ import tkinter as tk
 from tkinter import *
 from tkinter import ttk
 from backend.fetchPlayers import getWeekOneStarters
+from backend.rankPlayers import rank
 import pandas as pd
 import random as rd
 
 def pickBetweenPlayers():
     allPlayers = getWeekOneStarters([2024], [positionChoices.get()])
-    allPlayers = allPlayers.reset_index(drop=True)
     rows = len(allPlayers)
 
     # In first set of comparisons, go through the list and compare one and two, three and four, and so on

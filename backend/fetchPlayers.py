@@ -34,6 +34,7 @@ def getWeekOneStarters(years, position):
     # get only week one starters
     toReturn = toReturn[toReturn['week_y'] == 1]
     toReturn.drop_duplicates(subset=['gsis_id'], inplace=True)
+    toReturn = toReturn.reset_index(drop='True')
 
     return toReturn
 
