@@ -32,15 +32,16 @@ def rank(comparisons):
 
 # --------------------------- Example usage -------------------------------
 # First number beats second number
-comparisons = [    
-    (0, 1), (0, 1), (0, 1),  
-    (1, 2), (1, 2),          
-    (0, 2),                  
-    (2, 0),                  
-    (3, 0), (3, 2), (1, 3)
-]
 
-strengths, ranking = rank(comparisons)
+# comparisons = [    
+#     (0, 1), (0, 1), (0, 1),  
+#     (1, 2), (1, 2),          
+#     (0, 2),                  
+#     (2, 0),                  
+#     (3, 0), (3, 2), (1, 3)
+# ]
 
-print("Normalized strengths:", strengths)
-print("Ranking (best to worst):", ranking)
+# strengths, ranking = rank(comparisons)
+
+# print("Normalized strengths:", strengths)
+# print("Ranking (best to worst):", ranking)

@@ -44,5 +44,7 @@ def printPlayers(players):
     count = 1
     for _, row in players.iterrows():
         if (row['club_code'] == 'CHI'):
-            print(count, ":", row['player_name'], ', ', row['club_code'])
+            print(count, ":", row['player_name'], ', ', row['club_code'], ', ', row['headshot_url'])
         count += 1
+
+# printPlayers(getWeekOneStarters([2024], ['WR']))

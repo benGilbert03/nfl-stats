@@ -10,21 +10,24 @@ def pickBetweenPlayers():
     allPlayers = getWeekOneStarters([2024], [positionChoices.get()])
     rows = len(allPlayers)
 
+    combinations = []
     # In first set of comparisons, go through the list and compare one and two, three and four, and so on
     for i in range(0, rows, 2):
         print(i, ': ', allPlayers.loc[allPlayers.index == i])
         print(i, ': ', allPlayers.iloc[allPlayers.index == i + 1])
 
+        
 
 
     # After first set of comparisons, comparisons should be random until there is, on average 3 to 5 comparisons for each
 
-
+def onImageClick(combinations, winningIndex, losingIndex):
+    combinations.append(winningIndex, losingIndex)
 
 # Main app window
 root = tk.Tk()
 root.title("Rank NFL Players")
-root.geometry("400x300")
+root.geometry("600x400")
 
 w = Label(root, text='What position do you want to rank?')
 w.pack()
