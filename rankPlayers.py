@@ -1,12 +1,21 @@
 import choix
 import numpy as np
+import streamlit as st
 
-def rank(comparisons):
+if 'comparisons' not in st.session_state:
+    st.session_state['comparisons'] = []
+
+def addComparison(winner, loser):
+    st.session_state['comparisons'].append((winner, loser))
+
+def rank():
     """
     Given a list of (winner, loser) comparisons, returns:
     - normalized strengths of each item
     - list of item indices ranked from best to worst
     """
+    comparisons = st.session_state['comparisons']
+
     # Get unique item indices
     item_ids = set()
     for winner, loser in comparisons:
