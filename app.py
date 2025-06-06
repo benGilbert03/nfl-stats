@@ -2,16 +2,19 @@ import tkinter as tk
 from pages.homePage import HomePage
 from pages.comparePage import ComparisonsPage
 from pages.rankingsPage import DisplayRankingsPage
+import pandas as pd
 
 class App(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title("NFL Player Ranking App")
-        self.geometry('500x400')
+        self.geometry('600x500')
 
         # Shared Data (between pages) 
         self.sharedData = {
-            'comparisons': []
+            'comparisons': [],
+            'players': pd.DataFrame(),
+            'readyForNextPair': True
         }
 
         # Container for all pages
