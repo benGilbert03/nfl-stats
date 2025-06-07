@@ -14,7 +14,8 @@ class App(tk.Tk):
         self.sharedData = {
             'comparisons': [],
             'players': pd.DataFrame(),
-            'readyForNextPair': True
+            'indexesToCompare': [],
+            'comparisons': []
         }
 
         # Container for all pages
