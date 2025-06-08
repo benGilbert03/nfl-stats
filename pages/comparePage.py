@@ -11,10 +11,6 @@ class ComparisonsPage(tk.Frame):
         instrLabel = tk.Label(self, text="Click on the player you think is better", font=('Arial', 14))
         instrLabel.pack(pady=10)
 
-        # self.p1Image = None
-        # self.p2Image = None
-        # self.p1Button = None
-        # self.p2Button = None
         self.imagesFrame = None
         self.buttonsFrame = None
         self.count = 0
@@ -26,7 +22,9 @@ class ComparisonsPage(tk.Frame):
         controller.sharedData['comparisons'].append((winningPlayerIndex, losingPlayerIndex))
         controller.sharedData['indexesToCompare'].pop(0)
         if (len(controller.sharedData['indexesToCompare']) == 0):
+            rankPage = controller.frames['DisplayRankingsPage']
             controller.show_frame('DisplayRankingsPage')
+            rankPage.displayRankings(controller)
         else:
             self.displayPair(controller)
         
@@ -77,16 +75,15 @@ class ComparisonsPage(tk.Frame):
             controller.sharedData['indexesToCompare'].append((i, i+1))
 
         # Second and third: random players that aren't already being compared
-        for i in range(0, math.ceil(len(controller.sharedData['players']) * 2.5)):
-            p1Index = rd.randrange(0, len(controller.sharedData['players']))
-            p2Index = rd.randrange(0, len(controller.sharedData['players']))
+        # for i in range(0, math.ceil(len(controller.sharedData['players']) * 3.5)):
+        #     p1Index = rd.randrange(0, len(controller.sharedData['players']))
+        #     p2Index = rd.randrange(0, len(controller.sharedData['players']))
 
-            while (p1Index == p2Index or (p1Index, p2Index) in controller.sharedData['indexesToCompare'] or (p2Index, p1Index) in controller.sharedData['indexesToCompare']):
-                p1Index = rd.randrange(0, len(controller.sharedData['players']))
-                p2Index = rd.randrange(0, len(controller.sharedData['players']))
-
+        #     while (p1Index == p2Index or (p1Index, p2Index) in controller.sharedData['indexesToCompare'] or (p2Index, p1Index) in controller.sharedData['indexesToCompare']):
+        #         p1Index = rd.randrange(0, len(controller.sharedData['players']))
+        #         p2Index = rd.randrange(0, len(controller.sharedData['players']))
                 
-            controller.sharedData['indexesToCompare'].append((p1Index, p2Index))
+        #     controller.sharedData['indexesToCompare'].append((p1Index, p2Index))
 
         self.displayPair(controller)
         

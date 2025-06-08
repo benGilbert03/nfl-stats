@@ -1,43 +1,54 @@
 import choix
 import numpy as np
-import streamlit as st
+from fetchPlayers import getWeekOneStarters
 
-if 'comparisons' not in st.session_state:
-    st.session_state['comparisons'] = []
+def rank(comparisons, players):
+    ratings, ranked = elo_rank(len(players), comparisons)
 
-def addComparison(winner, loser):
-    st.session_state['comparisons'].append((winner, loser))
+    count = 1
+    for item in ranked:
+        print(f'{count}: {players.iloc[item[0]]['player_name']} - {item[1]}')
+        count += 1
 
-def rank():
-    """
-    Given a list of (winner, loser) comparisons, returns:
-    - normalized strengths of each item
-    - list of item indices ranked from best to worst
-    """
-    comparisons = st.session_state['comparisons']
+    
 
-    # Get unique item indices
-    item_ids = set()
+    return ranked
+
+
+
+def elo_rank(num_players, comparisons, initial_rating=1500, K=50):
+    ratings = [initial_rating] * num_players
+
     for winner, loser in comparisons:
-        item_ids.update([winner, loser])
-    item_ids = sorted(item_ids)
-    id_map = {item_id: idx for idx, item_id in enumerate(item_ids)}
-    reverse_map = {idx: item_id for item_id, idx in id_map.items()}
+        ratings[winner], ratings[loser] = elo_update(ratings[winner], ratings[loser], K)
 
-    # Remap comparisons to 0-based indexing
-    remapped_comparisons = [(id_map[w], id_map[l]) for w, l in comparisons]
-    n_items = len(item_ids)
+    ranked = sorted(enumerate(ratings), key=lambda x: x[1], reverse=True)
+    return ratings, ranked
 
-    # Fit Bradley-Terry model
-    log_strengths = choix.ilsr_pairwise(n_items, remapped_comparisons)
-    strengths = np.exp(log_strengths)
-    normalized_strengths = strengths / np.sum(strengths)
+def elo_update(rating_winner, rating_loser, K=50):
+    expected_win = 1 / (1 + 10 ** ((rating_loser - rating_winner) / 400))
+    new_rating_winner = rating_winner + K * (1 - expected_win)
+    new_rating_loser = rating_loser + K * (0 - (1 - expected_win))
+    return new_rating_winner, new_rating_loser
 
-    # Get ranking (highest strength first)
-    ranked_indices = np.argsort(-normalized_strengths)
-    ranked_items = [reverse_map[i] for i in ranked_indices]
+comparisons = [
+    (1, 0), (3, 2), (5, 4), (6, 7), (9, 8), (10, 11), (12, 13), (14, 15), (17, 16), (19, 18), (21, 20), (23, 22),
+    (24, 25), (27, 26), (29, 28), (30, 31), (2, 22), (22, 26), (6, 17), (5, 26), (10, 9), (12, 28), (11, 5), (19, 5),
+    (6, 31), (10, 21), (9, 23), (12, 0), (19, 1), (31, 26), (14, 26), (25, 16), (27, 13), (1, 16),
+    (16, 28), (19, 25), (6, 18), (6, 4), (24, 23), (19, 20), (16, 7), (1, 17), (12, 19), (3, 11), (13, 5),
+    (5, 2), (17, 2), (6, 11), (24, 26), (27, 30), (23, 17), (10, 28), (15, 4), (7, 8), (21, 22), (18, 28), 
+    (1, 23), (31, 7), (16, 15), (13, 2), (10, 24), (24, 7), (6, 5), (30, 8), (30, 28), (12, 29), (3, 28), (6, 24), 
+    (28, 15), (9, 5), (27, 6), (20, 31), (7, 0), (0, 4), (1, 7), (20, 25), (25, 7), (1, 5), (21, 31), (14, 22), (13, 7), 
+    (17, 26), (21, 4), (25, 4), (18, 25), (24, 5), (1, 13), (29, 25), (11, 8), (9, 11), (21, 27), (0, 26), (21, 2), 
+    (14, 28), (11, 4), (19, 26)
+    ]
 
-    return normalized_strengths, ranked_items
+
+
+# print("Ratings:", ratings)
+# print()
+# print("Ranked order:", ranked)
+
 
 # --------------------------- Example usage -------------------------------
 # First number beats second number

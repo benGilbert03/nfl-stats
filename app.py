@@ -33,7 +33,10 @@ class App(tk.Tk):
             self.frames[page_name] = frame
             frame.grid(row=0, column=0, sticky='nsew')
         
+        # TODO: Uncomment this line once finished developing rankingsPage.py
         self.show_frame("HomePage")
+        # self.show_frame('DisplayRankingsPage')
+
 
     def show_frame(self, page_name):
         frame = self.frames[page_name]

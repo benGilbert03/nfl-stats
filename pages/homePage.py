@@ -25,7 +25,7 @@ class HomePage(tk.Frame):
         posCombobox = ttk.Combobox(comboFrame, values=['QB', 'RB', 'WR', 'TE', 'DB'])
         posCombobox.pack(side='left', padx=10)
 
-        yearCombobox = ttk.Combobox(comboFrame, values=[2025, 2024, 2023, 2022, 2021, 2020, 2019, 2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011])
+        yearCombobox = ttk.Combobox(comboFrame, values=[2024, 2023, 2022, 2021, 2020, 2019, 2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011])
         yearCombobox.pack(side='right', padx=10)
 
 
