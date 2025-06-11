@@ -75,15 +75,15 @@ class ComparisonsPage(tk.Frame):
             controller.sharedData['indexesToCompare'].append((i, i+1))
 
         # Second and third: random players that aren't already being compared
-        # for i in range(0, math.ceil(len(controller.sharedData['players']) * 3.5)):
-        #     p1Index = rd.randrange(0, len(controller.sharedData['players']))
-        #     p2Index = rd.randrange(0, len(controller.sharedData['players']))
+        for i in range(0, math.ceil(len(controller.sharedData['players']) * 3.5)):
+            p1Index = rd.randrange(0, len(controller.sharedData['players']))
+            p2Index = rd.randrange(0, len(controller.sharedData['players']))
 
-        #     while (p1Index == p2Index or (p1Index, p2Index) in controller.sharedData['indexesToCompare'] or (p2Index, p1Index) in controller.sharedData['indexesToCompare']):
-        #         p1Index = rd.randrange(0, len(controller.sharedData['players']))
-        #         p2Index = rd.randrange(0, len(controller.sharedData['players']))
+            while (p1Index == p2Index or (p1Index, p2Index) in controller.sharedData['indexesToCompare'] or (p2Index, p1Index) in controller.sharedData['indexesToCompare']):
+                p1Index = rd.randrange(0, len(controller.sharedData['players']))
+                p2Index = rd.randrange(0, len(controller.sharedData['players']))
                 
-        #     controller.sharedData['indexesToCompare'].append((p1Index, p2Index))
+            controller.sharedData['indexesToCompare'].append((p1Index, p2Index))
 
         self.displayPair(controller)
         

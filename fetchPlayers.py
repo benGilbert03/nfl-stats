@@ -3,7 +3,7 @@ import pandas as pd
 
 
 # Returns a dataframe with all players of a certain position in the given year
-def getPlayers(years, position):
+def getPlayers(years: list, position: list):
     if (isinstance(years, list) and isinstance(position, list)):
         # get rosters for the years provided and put them in a data frame
         players = pd.DataFrame(nfl.import_seasonal_rosters(years))
@@ -15,6 +15,8 @@ def getPlayers(years, position):
             except KeyError as e:
                 print("Error ", e)
             break
+
+        players = players[['player_name', 'player_id', 'headshot_url', 'week', 'season']]
         # return the dataframe
         return players
     else: 
@@ -36,6 +38,8 @@ def getWeekOneStarters(years, position):
     toReturn.drop_duplicates(subset=['gsis_id'], inplace=True)
     toReturn = toReturn.reset_index(drop='True')
 
+    toReturn = toReturn[['player_name', 'player_id', 'headshot_url', 'position', 'season_x']]
+    toReturn.rename(columns={'season_x' : 'year'}, inplace=True)
     return toReturn
 
 
@@ -48,3 +52,8 @@ def printPlayers(players):
         count += 1
 
 # printPlayers(getWeekOneStarters([2024], ['WR']))
+p = getWeekOneStarters([2024], ['QB'])
+# p = getPlayers([2024], ['QB'])
+print(p)
+
+# print(nfl.import_seasonal_rosters([2024]).columns)
