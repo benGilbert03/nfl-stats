@@ -1,9 +1,10 @@
 import nfl_data_py as nfl
 import pandas as pd
+from Classes import Player 
 
 
 # Returns a dataframe with all players of a certain position in the given year
-def getPlayers(years: list, position: list):
+def __getPlayers(years: list, position: list):
     if (isinstance(years, list) and isinstance(position, list)):
         # get rosters for the years provided and put them in a data frame
         players = pd.DataFrame(nfl.import_seasonal_rosters(years))
@@ -17,7 +18,6 @@ def getPlayers(years: list, position: list):
             break
 
         players = players[['player_name', 'player_id', 'headshot_url', 'week', 'season']]
-        # return the dataframe
         return players
     else: 
         return None
@@ -26,7 +26,7 @@ def getPlayers(years: list, position: list):
 # Returns a dataframe with the week one starters at the given position or None
 # club_code is the the team the player was on week one
 def getWeekOneStarters(years, position):
-    players = getPlayers(years, position)
+    players = __getPlayers(years, position)
     depthCharts = pd.DataFrame(nfl.import_depth_charts(years))
     depthCharts = depthCharts[depthCharts['depth_team'] == '1']
 
@@ -38,9 +38,15 @@ def getWeekOneStarters(years, position):
     toReturn.drop_duplicates(subset=['gsis_id'], inplace=True)
     toReturn = toReturn.reset_index(drop='True')
 
-    toReturn = toReturn[['player_name', 'player_id', 'headshot_url', 'position', 'season_x']]
+    toReturn = toReturn[['player_name', 'player_id', 'headshot_url', 'position', 'season_x', 'club_code']]
     toReturn.rename(columns={'season_x' : 'year'}, inplace=True)
-    return toReturn
+
+    pList = []
+
+    for _, p in toReturn.iterrows():
+        pList.append(Player(name=p['player_name'], id=p['player_id'], position=p['position'], image=p['headshot_url'], year=p['year']))
+
+    return pList
 
 
 

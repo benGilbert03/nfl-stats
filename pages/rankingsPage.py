@@ -15,10 +15,10 @@ class DisplayRankingsPage(tk.Frame):
     def displayRankings(self, controller):
         count = 1
         rowInd = 1
-        rankedIndexes = rank(comparisons=controller.sharedData['comparisons'], players=controller.sharedData['players'])
+        controller.sharedData['players'] = rank(comparisons=controller.sharedData['comparisons'], players=controller.sharedData['players'])
         
-        for index in rankedIndexes:
-            tk.Label(self.listFrame, text=f"{count}: {controller.sharedData['players'].iloc[index[0]]['player_name']}").grid(row=rowInd, column= count // 17 + 1)
+        for player in controller.sharedData['players']:
+            tk.Label(self.listFrame, text=f"{count}: {player.name}").grid(row=rowInd, column= count // 17 + 1)
             count += 1
             if rowInd < 16:
                 rowInd += 1

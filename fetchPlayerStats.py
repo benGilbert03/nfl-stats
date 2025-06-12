@@ -1,5 +1,6 @@
 import nfl_data_py as nfl
 from fetchPlayers import getWeekOneStarters
+from Classes import Player
 
 # Helper method that prints a row of a dataframe
 def printRow(row):
@@ -35,11 +36,15 @@ seasonal = seasonal[seasonal['player_id'] == '00-0039918']
 
 # Returns a dataframe with the stats used to determine an initial elo rating
 def getStats(players):
-    data = nfl.import_seasonal_data([int(players.iloc[0]['year'])])
+    data = nfl.import_seasonal_data([players[0].year])
     data = data[['player_id', 'fantasy_points_ppr', 'games']]
-    for _, player in players.iterrows():
-        id = player['player_id']
-        print(id)
+
+    averages = []
+
+    for player in players:
+        id = player.id
+        s = data[data['player_id'] == id]
+        print(s['fantasy_points_ppr'])
 
     # if players.iloc[0]['position'] == 'QB':
     #     pass            

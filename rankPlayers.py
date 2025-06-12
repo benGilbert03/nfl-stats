@@ -3,27 +3,30 @@ import numpy as np
 from fetchPlayers import getWeekOneStarters
 
 def rank(comparisons, players):
-    ratings, ranked = elo_rank(len(players), comparisons)
-
+    # ratings, ranked = elo_rank(players, comparisons)
+    elo_rank(players, comparisons)
+    
     count = 1
-    for item in ranked:
-        print(f'{count}: {players.iloc[item[0]]['player_name']} - {item[1]}')
+    # for item in ranked:
+    #     print(f'{count}: {players.iloc[item[0]].name} - {item[1]}')
+    #     count += 1
+
+    players.sort(key=lambda p: p.elo, reverse=True)
+
+    for p in players:
+        print(f'{count}: {p.name}')
         count += 1
 
-    
-
-    return ranked
+    return players
 
 
 
-def elo_rank(num_players, comparisons, initial_rating=1500, K=50):
-    ratings = [initial_rating] * num_players
-
+def elo_rank(players, comparisons, K=50):
     for winner, loser in comparisons:
-        ratings[winner], ratings[loser] = elo_update(ratings[winner], ratings[loser], K)
+        players[winner].elo, players[loser].elo = elo_update(players[winner].elo, players[loser].elo, K)
 
-    ranked = sorted(enumerate(ratings), key=lambda x: x[1], reverse=True)
-    return ratings, ranked
+    # ranked = sorted(enumerate(ratings), key=lambda x: x[1], reverse=True)
+    # return ratings, ranked
 
 def elo_update(rating_winner, rating_loser, K=50):
     expected_win = 1 / (1 + 10 ** ((rating_loser - rating_winner) / 400))
@@ -42,8 +45,8 @@ comparisons = [
     (17, 26), (21, 4), (25, 4), (18, 25), (24, 5), (1, 13), (29, 25), (11, 8), (9, 11), (21, 27), (0, 26), (21, 2), 
     (14, 28), (11, 4), (19, 26)
     ]
-
-
+players = getWeekOneStarters([2024],['QB'])
+rank(comparisons, players)
 
 # print("Ratings:", ratings)
 # print()

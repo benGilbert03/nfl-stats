@@ -1,1 +1,0 @@
-# TODO: At some point, create a class for players so I can have player objects instead of only using dataframes
