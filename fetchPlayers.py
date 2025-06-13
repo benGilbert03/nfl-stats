@@ -60,6 +60,6 @@ def printPlayers(players):
 # printPlayers(getWeekOneStarters([2024], ['WR']))
 p = getWeekOneStarters([2024], ['QB'])
 # p = getPlayers([2024], ['QB'])
-print(p)
+# print(p)
 
 # print(nfl.import_seasonal_rosters([2024]).columns)

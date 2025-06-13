@@ -10,7 +10,7 @@ class Player():
         self.elo = elo
 
     def calculateElo(self, points, games):
-        stat = points / games
+        self.elo = points.values[0] / games.values[0]
         
 
 
