@@ -1,2 +1,2 @@
-# nfl-stats
-At the very least, this will use the bradley-terry model for pairwise rankings to rank nfl players. A user will choose a position and year for which they would like to rank players. Then they will be given two players and will choose which is better. This is done over and over again until there are enough comparisons to rank the players and the rankings will be displayed. 
+# Ranking NFL Players using pairwise rankings
+A python tkinter app that allows a user to rank starters at offensive skill positions for the year of their choosing using pairwise rankings. 
