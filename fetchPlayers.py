@@ -63,3 +63,10 @@ p = getWeekOneStarters([2024], ['QB'])
 # print(p)
 
 # print(nfl.import_seasonal_rosters([2024]).columns)
+
+print(nfl.import_draft_picks([2025]).columns)
+
+draft = nfl.import_draft_picks([2024])
+for _, row in draft.iterrows():
+    if (row['position'] == 'RB'):
+        print(row['pfr_player_name'], ', ', row['round'])

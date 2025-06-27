@@ -24,19 +24,3 @@ class DisplayRankingsPage(tk.Frame):
                 rowInd += 1
             else:
                 rowInd = 1
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
